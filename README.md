@@ -1,4 +1,4 @@
-# Netflix_analytics_dashboard
+# 🎬Netflix_analytics_dashboard (Power BI)
 ## Overview
 The Netflix Movies Analytics Dashboard is an interactive Power BI project designed to explore and visualize global trends in Netflix’s movie and TV show catalog.
 The project uncovers insights into content growth, genre popularity, country-wise contributions, and audience ratings, while focusing on aesthetic storytelling through data.
