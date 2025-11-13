@@ -1,0 +1,116 @@
+-------------------------------------------
+-- 📊 Power BI Measures for netflix_movies
+-------------------------------------------
+
+DEFINE
+    // 🎯 Content Count & KPI Metrics
+    MEASURE 'netflix_movies'[Total Titles] =
+        COUNTROWS('netflix_movies')
+
+    MEASURE 'netflix_movies'[Total Movies] =
+        CALCULATE(COUNTROWS('netflix_movies'), 'netflix_movies'[type] = "Movie")
+
+    MEASURE 'netflix_movies'[Average Rating Score] =
+        AVERAGE('netflix_movies'[vote_average])
+
+    MEASURE 'netflix_movies'[Average Popularity] =
+        AVERAGE('netflix_movies'[popularity])
+
+    MEASURE 'netflix_movies'[Average Vote Count] =
+        AVERAGE('netflix_movies'[vote_count])
+
+    // 💰 Financial Measures
+    MEASURE 'netflix_movies'[Total Budget] =
+        SUM('netflix_movies'[budget])
+
+    MEASURE 'netflix_movies'[Total Revenue] =
+        SUM('netflix_movies'[revenue])
+
+    MEASURE 'netflix_movies'[Average Budget] =
+        AVERAGE('netflix_movies'[budget])
+
+    MEASURE 'netflix_movies'[Average Revenue] =
+        AVERAGE('netflix_movies'[revenue])
+
+    MEASURE 'netflix_movies'[Profit] =
+        SUMX('netflix_movies', 'netflix_movies'[revenue] - 'netflix_movies'[budget])
+
+    MEASURE 'netflix_movies'[ROI %] =
+        DIVIDE(
+            SUMX('netflix_movies', 'netflix_movies'[revenue] - 'netflix_movies'[budget]),
+            SUM('netflix_movies'[budget])
+        ) * 100
+
+    // 🗓️ Time-Based Metrics
+    MEASURE 'netflix_movies'[Titles Added per Year] =
+        COUNTROWS('netflix_movies')
+
+    MEASURE 'netflix_movies'[Average Release Year] =
+        AVERAGE('netflix_movies'[release_year])
+
+    // 👥 Audience & Engagement
+    MEASURE 'netflix_movies'[Popularity per Vote] =
+        DIVIDE(SUM('netflix_movies'[popularity]), SUM('netflix_movies'[vote_count]))
+
+    MEASURE 'netflix_movies'[Engagement Score] =
+        AVERAGEX('netflix_movies',
+            ('netflix_movies'[popularity] * 'netflix_movies'[vote_average])
+        )
+
+    // ⭐ Rating & Performance
+    MEASURE 'netflix_movies'[High Rated Titles] =
+        CALCULATE(COUNTROWS('netflix_movies'), 'netflix_movies'[vote_average] >= 8)
+
+    MEASURE 'netflix_movies'[Low Rated Titles] =
+        CALCULATE(COUNTROWS('netflix_movies'), 'netflix_movies'[vote_average] < 5)
+
+    MEASURE 'netflix_movies'[Average Rating by Type] =
+        AVERAGEX(
+            VALUES('netflix_movies'[type]),
+            CALCULATE(AVERAGE('netflix_movies'[vote_average]))
+        )
+
+    // 🎬 Content Distribution
+    MEASURE 'netflix_movies'[Unique Genres] =
+        DISTINCTCOUNT('netflix_movies'[genres])
+
+    MEASURE 'netflix_movies'[Unique Directors] =
+        DISTINCTCOUNT('netflix_movies'[director])
+
+    MEASURE 'netflix_movies'[Unique Countries] =
+        DISTINCTCOUNT('netflix_movies'[country])
+
+    // 🌎 Regional Revenue
+    MEASURE 'netflix_movies'[Revenue by Country] =
+        SUMX(VALUES('netflix_movies'[country]), SUM('netflix_movies'[revenue]))
+
+-------------------------------------------
+-- 🧾 Summary Table Output
+-------------------------------------------
+
+EVALUATE
+SUMMARIZECOLUMNS(
+    'netflix_movies'[type],
+    "Total Titles", [Total Titles],
+    "Total Movies", [Total Movies],
+    "Average Rating Score", [Average Rating Score],
+    "Average Popularity", [Average Popularity],
+    "Average Vote Count", [Average Vote Count],
+    "Total Budget", [Total Budget],
+    "Total Revenue", [Total Revenue],
+    "Average Budget", [Average Budget],
+    "Average Revenue", [Average Revenue],
+    "Profit", [Profit],
+    "ROI %", [ROI %],
+    "Titles Added per Year", [Titles Added per Year],
+    "Average Release Year", [Average Release Year],
+    "Popularity per Vote", [Popularity per Vote],
+    "Engagement Score", [Engagement Score],
+    "High Rated Titles", [High Rated Titles],
+    "Low Rated Titles", [Low Rated Titles],
+    "Average Rating by Type", [Average Rating by Type],
+    "Unique Genres", [Unique Genres],
+    "Unique Directors", [Unique Directors],
+    "Unique Countries", [Unique Countries],
+    "Revenue by Country", [Revenue by Country]
+)
