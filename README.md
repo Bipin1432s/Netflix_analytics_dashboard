@@ -94,4 +94,4 @@ It reflects my ability to merge analytical thinking with creative design, a key 
 
 📍 Data Analyst | Power BI Developer | Data Visualization Enthusiast
 
-🔗 [[LinkedIn Profile]](https://www.linkedin.com/in/b-bipin-196457283/) | [[GitHub Profile]](https://github.com/Bipin1432s/)
+🔗 [LinkedIn Profile](https://www.linkedin.com/in/b-bipin-196457283/) | [GitHub Profile](https://github.com/Bipin1432s/)
